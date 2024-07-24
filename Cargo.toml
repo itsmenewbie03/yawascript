@@ -2,5 +2,8 @@
 name = "yawascript"
 version = "0.1.0"
 edition = "2021"
+about = "YawaScript is not just a meme anymore."
+author = "itsmenewbie03"
 
 [dependencies]
+clap = { version = "4.5.9", features = ["derive"] }
