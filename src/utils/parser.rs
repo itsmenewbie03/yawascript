@@ -1,3 +1,5 @@
+use crate::utils::interpreter::Interpreter;
+
 #[derive(Debug)]
 pub enum Token {
     ShiftRight,
@@ -61,7 +63,10 @@ pub fn tokenize(file: std::path::PathBuf) -> Result<Vec<Token>, String> {
 
 pub fn run(file: std::path::PathBuf) {
     match tokenize(file) {
-        Ok(tokens) => println!("Parsed Successs\nTotal Tokens: {}", tokens.len()),
+        Ok(tokens) => {
+            Interpreter::run(&tokens);
+            println!();
+        }
         Err(err) => println!("{err}"),
     }
 }
