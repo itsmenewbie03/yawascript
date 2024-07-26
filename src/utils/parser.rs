@@ -1,5 +1,3 @@
-use std::io::Read;
-
 #[derive(Debug)]
 pub enum Token {
     ShiftRight,
@@ -40,18 +38,16 @@ pub fn tokenize(file: std::path::PathBuf) -> Result<Vec<Token>, String> {
                 .collect::<String>()
                 .as_bytes()
                 .chunks(4)
-                .for_each(|mut token| {
-                    let mut tokenstr = String::new();
-                    token.read_to_string(&mut tokenstr).unwrap();
-                    match Token::parse(&tokenstr) {
+                .for_each(
+                    |token| match Token::parse(std::str::from_utf8(token).unwrap()) {
                         Ok(token) => {
                             tokens.push(token);
                         }
                         Err(err) => {
                             errors.push(err);
                         }
-                    }
-                });
+                    },
+                );
             if !errors.is_empty() {
                 // TODO: provide the index of the error
                 Err(format!("Syntax Error:\n{}", errors.join("\n")))
