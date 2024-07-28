@@ -18,3 +18,7 @@ These keywords are 1 to 1 mapping of the Brainfuck commands.
 | `YAWA`  | Accept one byte of input, storing its value in the byte at the data pointer.                                                                                                           |
 | `YAWa`  | If the byte at the data pointer is zero, then instead of moving the instruction pointer forward to the next command, jump it forward to the command after the matching `yAWA` command. |
 | `yAWA`  | If the byte at the data pointer is nonzero, then instead of moving the instruction pointer forward to the next command, jump it back to the command after the matching `YAWa` command. |
+
+## 🚀 Examples
+
+A simple "Hello, World!" program is available at [src/examples](https://github.com/itsmenewbie03/yawascript/tree/main/src/examples).
