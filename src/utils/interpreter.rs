@@ -1,3 +1,6 @@
+use core::panic;
+use std::io::Read;
+
 use crate::utils::parser::Token;
 
 #[derive(Debug)]
@@ -15,11 +18,21 @@ impl ProgState {
     }
 
     fn inc(&mut self) {
-        self.tape[self.data_ptr] += 1;
+        let cur_val = self.tape[self.data_ptr];
+        if cur_val == 255 {
+            self.tape[self.data_ptr] = 0;
+        } else {
+            self.tape[self.data_ptr] += 1;
+        }
     }
 
     fn dec(&mut self) {
-        self.tape[self.data_ptr] -= 1;
+        let cur_val = self.tape[self.data_ptr];
+        if cur_val == 0 {
+            self.tape[self.data_ptr] = 255;
+        } else {
+            self.tape[self.data_ptr] -= 1;
+        }
     }
 
     fn shift_right(&mut self) {
@@ -33,9 +46,20 @@ impl ProgState {
     fn output(&self) {
         print!("{}", self.tape[self.data_ptr] as char);
     }
+
+    fn input(&mut self) {
+        let mut buf = [0; 1];
+        std::io::stdin()
+            .read_exact(&mut buf)
+            .expect("Failed to read input");
+        if !buf[0].is_ascii() {
+            panic!("Non ASCII Character Entered (value={})", buf[0]);
+        }
+        self.tape[self.data_ptr] = buf[0];
+    }
 }
 
-pub struct Interpreter {}
+pub struct Interpreter;
 
 impl Interpreter {
     pub fn run(tokens: &[Token]) {
@@ -47,6 +71,7 @@ impl Interpreter {
                 Token::ShiftRight => state.shift_right(),
                 Token::ShiftLeft => state.shift_left(),
                 Token::Output => state.output(),
+                Token::Input => state.input(),
                 _ => todo!(),
             };
         }
