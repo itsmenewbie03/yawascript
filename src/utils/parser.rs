@@ -1,6 +1,6 @@
 use crate::utils::interpreter::Interpreter;
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub enum Token {
     ShiftRight,
     ShiftLeft,
