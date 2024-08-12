@@ -1,4 +1,4 @@
 /target
 *.yawa
-!src/examples/hello.yawa
+!src/examples/*
 *.py
