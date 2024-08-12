@@ -1,4 +1,5 @@
 use crate::utils::interpreter::Interpreter;
+use std::{collections::HashMap, usize};
 
 #[derive(Debug, PartialEq)]
 pub enum Token {
@@ -59,6 +60,34 @@ pub fn tokenize(file: std::path::PathBuf) -> Result<Vec<Token>, String> {
         }
         Err(_) => Err("Failed to read the file.".to_owned()),
     }
+}
+
+pub fn build_brace_map(tokens: &[Token]) -> Result<HashMap<usize, usize>, String> {
+    let mut brace_map: HashMap<usize, usize> = HashMap::new();
+    let mut temp_brace_vec: Vec<usize> = vec![];
+    for (idx, token) in tokens.iter().enumerate() {
+        match *token {
+            Token::LoopStart => temp_brace_vec.push(idx),
+            Token::LoopEnd => {
+                if temp_brace_vec.is_empty() {
+                    return Err("`yAWA` requires a `YAWa` first".to_owned());
+                }
+                // NOTE: we are checking if the vec is empty above
+                // so we can safely unwrap here
+                let start = temp_brace_vec.pop().unwrap();
+                let end = idx;
+                brace_map.insert(start, end);
+                brace_map.insert(end, start);
+            }
+            _ => {
+                // NOTE: we can just ignore the rest of the tokens
+            }
+        }
+    }
+    if !temp_brace_vec.is_empty() {
+        return Err("`YAWa` must have a corresponding `yAWA`".to_owned());
+    }
+    Ok(brace_map)
 }
 
 pub fn run(file: std::path::PathBuf) {
