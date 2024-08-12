@@ -1,6 +1,9 @@
+use core::panic;
 use std::io::Read;
 
 use crate::utils::parser::Token;
+
+use super::parser::build_brace_map;
 
 #[derive(Debug)]
 struct ProgState {
@@ -66,9 +69,15 @@ pub struct Interpreter;
 
 impl Interpreter {
     pub fn run(tokens: &[Token]) {
+        let brace_map = build_brace_map(tokens);
+        if let Err(err) = brace_map {
+            panic!("{}", err);
+        }
+        // NOTE: we will just panic for the Err variant so we can safely
+        // shadow the brace_map variable
+        let brace_map = brace_map.unwrap();
         let mut state = ProgState::new();
         let mut current_idx = 0;
-        let mut loop_start_idx = 0;
         // NOTE: for .. in .. is forward only let's manually handle the loop
         loop {
             if current_idx == tokens.len() {
@@ -83,28 +92,20 @@ impl Interpreter {
                 Token::Output => state.output(),
                 Token::Input => state.input(),
                 Token::LoopStart => {
-                    // NOTE: we saw a loopStart, idk if this is a good idea but i will try to ahead
-                    // until i encounter a loopEnd
-
-                    // BUG: this does not handle nested loop
-                    // so let's just assume those doesn't exists for now xD
-                    loop_start_idx = current_idx;
-                    let loop_end_idx = tokens[current_idx..]
-                        .iter()
-                        .position(|x| *x == Token::LoopEnd)
-                        .expect("`YAWa` requires a corresponding `yAWA`");
-
                     if state.cur_cell_val() != 0 {
                         current_idx += 1;
                         continue;
                     } else {
-                        println!("Jumping coz zero");
-                        current_idx = loop_end_idx;
+                        current_idx = *brace_map
+                            .get(&current_idx)
+                            .expect("IMPOSSIBLE 100% Rust BUG!");
                     }
                 }
                 Token::LoopEnd => {
                     if state.cur_cell_val() != 0 {
-                        current_idx = loop_start_idx;
+                        current_idx = *brace_map
+                            .get(&current_idx)
+                            .expect("IMPOSSIBLE 100% Rust BUG!");
                     }
                 }
             };
