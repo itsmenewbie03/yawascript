@@ -1,3 +1,8 @@
+<div align="center">
+<img src="https://github.com/itsmenewbie03/yawascript/blob/5e4e469ea7c4521828b92c2625016501ab0b6f92/logo.jpg" width="20%"/><br>
+  <i>YawaScript is not just a meme anymore.</i>
+</div>
+
 # YawaScript ⚡ [![author/maintainer](https://img.shields.io/badge/by-itsmenewbie03-016eea.svg?logo=github&labelColor=181717&longCache=true&style=flat-square)](https://itsmenewbie03.github.io)
 
 **YawaScript** is an esoteric programming language inspired by [COW programming language](https://esolangs.org/wiki/COW) which is a variant of [Brainfuck](https://en.wikipedia.org/wiki/Brainfuck).
