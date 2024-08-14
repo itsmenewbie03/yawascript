@@ -27,3 +27,7 @@ These keywords are 1 to 1 mapping of the Brainfuck commands.
 ## 🚀 Examples
 
 A simple "Hello, World!" program is available at [src/examples](https://github.com/itsmenewbie03/yawascript/tree/main/src/examples).
+
+## 💖 Acknowledgments
+
+- [LOGO](https://www.facebook.com/mgalarawanatbidyo)
