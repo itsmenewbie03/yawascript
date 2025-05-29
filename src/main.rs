@@ -1,5 +1,6 @@
-use crate::utils::{cli::CommandType::Run, parser::run};
+use crate::utils::{cli::CommandType::*, parser::run};
 use clap::Parser;
+use utils::compiler::compile;
 
 use crate::utils::cli::Cli;
 
@@ -9,5 +10,6 @@ fn main() {
     let args = Cli::parse();
     match args.command {
         Run(arg) => run(arg.file),
+        Compile(arg) => compile(arg.file),
     }
 }
