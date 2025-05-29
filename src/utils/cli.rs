@@ -12,10 +12,17 @@ pub struct Cli {
 pub enum CommandType {
     /// Run a file
     Run(RunCommand),
+    Compile(CompileCommand),
 }
 
 #[derive(Debug, Args)]
 pub struct RunCommand {
     /// The file to run
+    pub file: std::path::PathBuf,
+}
+
+#[derive(Debug, Args)]
+pub struct CompileCommand {
+    /// The file to compile
     pub file: std::path::PathBuf,
 }
