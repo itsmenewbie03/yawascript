@@ -25,4 +25,11 @@ pub struct RunCommand {
 pub struct CompileCommand {
     /// The file to compile
     pub file: std::path::PathBuf,
+    /// Target operating system, e.g. linux, windows, darwin
+    #[arg(long)]
+    pub os: Option<String>,
+
+    /// Target architecture, e.g. x86_64, arm, aarch64
+    #[arg(long)]
+    pub arch: Option<String>,
 }
