@@ -133,7 +133,7 @@ pub fn to_elf(src: &str, os: Option<String>, arch: Option<String>) {
     };
 
     // Step 3: Build clang args
-    let mut args = vec!["gen.ll", "-o", "output", "-O3", "-static"];
+    let mut args = vec!["gen.ll", "-o", "output", "-O3"];
     if !target_triple.is_empty() {
         args.push("-target");
         args.push(&target_triple);
