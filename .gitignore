@@ -2,3 +2,6 @@
 *.yawa
 !src/examples/*
 *.py
+*.ll
+*.exe
+output

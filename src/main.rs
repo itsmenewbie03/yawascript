@@ -10,6 +10,6 @@ fn main() {
     let args = Cli::parse();
     match args.command {
         Run(arg) => run(arg.file),
-        Compile(arg) => compile(arg.file),
+        Compile(arg) => compile(arg.file, arg.os, arg.arch),
     }
 }
